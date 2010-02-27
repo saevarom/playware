@@ -1,0 +1,16 @@
+<game>
+	<settings>
+		<gamename>Playware XNA Game</gamename>
+		<background>background.png</background>
+		<screenwidth>600</screenwidth>
+		<screenheight>400</screenheight>		
+		<gametype>1</gametype>
+	</settings>
+	<gameobjects>
+		<gameobject sound="cow.ogg" image="cow.jpg" transparent="true" rfid="E4410101010">Cow</gameobject>
+		<gameobject sound="duck.ogg" image="duck.jpg" transparent="true" rfid="E4410101011">Duck</gameobject>
+		<gameobject sound="horse.ogg" image="horse.jpg" transparent="true" rfid="E4410101012">Horse</gameobject>
+		<gameobject sound="pig.ogg" image="pig.jpg" transparent="true" rfid="E4410101013">Pig</gameobject><gameobject sound="hnnn.ogg" image="horse.jpg" rfid="E4410101013">Horse</gameobject><gameobject sound="hnnn.ogg" image="horse.jpg" rfid="E4410101013">Horse</gameobject>
+		<gameobject sound="sheep.ogg" image="sheep.jpg" transparent="true" rfid="E4410101013">Sheep</gameobject><gameobject sound="hnnn.ogg" image="horse.jpg" rfid="E4410101013">Horse</gameobject><gameobject sound="hnnn.ogg" image="horse.jpg" rfid="E4410101013">Horse</gameobject>
+	</gameobjects>
+</game>

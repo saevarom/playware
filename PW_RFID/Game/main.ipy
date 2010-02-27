@@ -1,0 +1,122 @@
+import clr
+clr.AddReference('Microsoft.Xna.Framework')
+clr.AddReference('Microsoft.Xna.Framework.Game')
+clr.AddReference('System.Xml')
+
+from Microsoft.Xna.Framework import *
+from Microsoft.Xna.Framework.Graphics import *
+from Microsoft.Xna.Framework.Content import *
+from Microsoft.Xna.Framework.Audio import *
+from Microsoft.Xna.Framework.Input import *
+from System.Xml import XmlDocument
+from System.IO import File
+
+class XmlSettings(object):
+	def __init__(self):
+		self.Document = XmlDocument()
+		
+	def load(self, filepath):
+		self.rawXML = File.ReadAllText(filepath)
+		self.Document.LoadXml(self.rawXML)
+		
+	def getSettings(self):
+		ns = self.Document.SelectNodes("//settings")
+		Item = {}
+		for n in ns:
+			for on in n.ChildNodes:
+				Item[on.Name] = on.InnerText
+		return Item
+		
+	def getGameData(self):
+		ns = self.Document.SelectNodes("//gameobjects")
+		SettingList = []
+		for n in ns:
+			for on in n.ChildNodes:
+				Item = {}
+				Item['Name'] = on.InnerText
+				Item['Sound'] = on.GetAttribute("sound")
+				Item['Image'] = on.GetAttribute("image")
+				Item['Rfid'] = on.GetAttribute("rfid")
+				SettingList.append(Item)
+		return SettingList
+
+class MyGame(Game):
+    def __init__(self):
+        self.spriteX = self.spriteY = 0
+        self.spriteSpeedX = self.spriteSpeedY = 1
+        self.initializeComponent()
+        self.counter = 0
+
+    def initializeComponent(self):
+		#Create the managers
+		self.graphics = GraphicsDeviceManager(self)
+		self.content = ContentManager(self.Services) 
+		
+		#The size of the window and title
+		self.graphics.PreferredBackBufferWidth = int(settings["screenwidth"])
+		self.graphics.PreferredBackBufferHeight = int(settings["screenheight"])
+		self.Window.Title = settings["gamename"]
+		
+
+    def LoadGraphicsContent(self, loadAllContent):
+        if loadAllContent:
+			self.spriteBatch = SpriteBatch(self.graphics.GraphicsDevice)
+			self.background = Texture2D.FromFile(self.graphics.GraphicsDevice, "images/"+settings["background"])
+			self.texture = Texture2D.FromFile(self.graphics.GraphicsDevice, "images/horse.png")
+           
+    def UnloadGraphicsContent(self, unloadAllContent):
+        if unloadAllContent:
+            self.texture.Dispose()
+            self.spritebatch.Dispose()
+
+    def Update(self, gameTime):
+        self.UpdateSprite()
+        self.counter += gameTime.ElapsedRealTime.TotalMilliseconds
+        #print(self.counter)
+        Game.Update(self, gameTime)
+
+    def UpdateSprite(self):       
+        self.spriteX += self.spriteSpeedX
+        self.spriteY += self.spriteSpeedY
+
+        maxX = self.graphics.GraphicsDevice.Viewport.Width - self.texture.Width
+        if self.spriteX > maxX:
+            self.spriteSpeedX *= -1
+            self.spriteX = maxX
+        elif self.spriteX < 0:
+            self.spriteSpeedX *= -1
+            self.spriteX = 0
+
+        maxY = self.graphics.GraphicsDevice.Viewport.Height - self.texture.Height
+        if self.spriteY > maxY:
+            self.spriteSpeedY *= -1
+            self.spriteY = maxY
+        elif self.spriteY < 0:
+            self.spriteSpeedY *= -1
+            self.spriteY = 0
+
+    def Draw(self, gameTime):
+		#On draw, we clear the screen before blitting anything
+		self.graphics.GraphicsDevice.Clear(Color.CornflowerBlue)
+
+		self.DrawSprite()
+		
+		Game.Draw(self, gameTime)
+       
+    def DrawSprite(self):
+		self.spriteBatch.Begin()
+		self.spriteBatch.Draw(self.background, Rectangle(0,0,int(settings["screenwidth"]), int(settings["screenheight"])), Color.White)
+		self.spriteBatch.Draw(self.texture, Rectangle(self.spriteX, self.spriteY, self.texture.Width*1.5, self.texture.Height*1.5), Color.White)
+		self.spriteBatch.End()
+
+		
+if __name__ == "__main__":		
+	config = XmlSettings()
+	config.load("settings.xml")
+	settings = config.getSettings()
+	print settings
+	print "----------------"
+	gamedata = config.getGameData()
+	print gamedata
+	game = MyGame()
+	game.Run()
