@@ -1,9 +1,12 @@
 import clr
 import os
 import time
+import re
+
 clr.AddReference('Microsoft.Xna.Framework')
 clr.AddReference('Microsoft.Xna.Framework.Game')
 clr.AddReferenceToFileAndPath(os.path.join('lib','ASCHFProtLib.dll'))
+import ASCHFProtLib
 
 from Microsoft.Xna.Framework import *
 from Microsoft.Xna.Framework.Graphics import *
@@ -23,21 +26,25 @@ class RFIDReader(Thread):
 	the returned data.
 	"""
 
-	self.TAGPATTERN=re.compile(r"E0040100[0-9A-F]{8}")
-	self.current_tags = []
-	self.reader = null
-	
 	def __init__(self):
 	
 		"""
 		Do some setup
 		"""
 		
+		Thread.__init__(self)
+		
+		self.running=True
+		self.TAGPATTERN=re.compile(r"E0040100[0-9A-F]{8}")
+		self.current_tags = []
 		self.reader = ASCHFProtLib.HFProt()
 		self.reader.OnRS232AscMsg += self.onRS232MsgReceived
-		self.reader.OpenRSCom(19200, "COM2"):
+		if self.reader.OpenRSCom(19200, "COM2"):
+			print "Successfully cnnected to RFID reader."
+		else:
+			print "Connection to RFID reader failed."
 	
-	def run()
+	def run(self):
 	
 		"""
 		Overloaded Thread method.
@@ -73,6 +80,7 @@ class RFIDReader(Thread):
 		
 	
 test = RFIDReader()
+test.start()
 
 
 class Sprite():
