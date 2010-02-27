@@ -45,6 +45,7 @@ class RFIDReader(Thread):
 			print ">>> Connection to RFID reader failed."
 			# Kill thread
 			self.running=False
+
 	
 	def run(self):
 	
