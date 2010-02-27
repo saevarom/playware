@@ -7,10 +7,45 @@
 		<gametype>1</gametype>
 	</settings>
 	<gameobjects>
-		<gameobject sound="cow.ogg" image="cow.jpg" transparent="true" rfid="E4410101010">Cow</gameobject>
-		<gameobject sound="duck.ogg" image="duck.jpg" transparent="true" rfid="E4410101011">Duck</gameobject>
-		<gameobject sound="horse.ogg" image="horse.jpg" transparent="true" rfid="E4410101012">Horse</gameobject>
-		<gameobject sound="pig.ogg" image="pig.jpg" transparent="true" rfid="E4410101013">Pig</gameobject><gameobject sound="hnnn.ogg" image="horse.jpg" rfid="E4410101013">Horse</gameobject><gameobject sound="hnnn.ogg" image="horse.jpg" rfid="E4410101013">Horse</gameobject>
-		<gameobject sound="sheep.ogg" image="sheep.jpg" transparent="true" rfid="E4410101013">Sheep</gameobject><gameobject sound="hnnn.ogg" image="horse.jpg" rfid="E4410101013">Horse</gameobject><gameobject sound="hnnn.ogg" image="horse.jpg" rfid="E4410101013">Horse</gameobject>
+		<gameobject>
+			<name>Cow</name>
+			<sound>cow.ogg</sound>
+			<images transparent="true">
+				<image>cow.png</image>
+			</images>
+			<rfid>E4410101010</rfid>
+		</gameobject>
+		<gameobject>
+			<name>Duck</name>
+			<sound>duck.ogg</sound>
+			<images transparent="true">
+				<image>duck.png</image>
+			</images>
+			<rfid>E4410101011</rfid>
+		</gameobject>
+		<gameobject>
+			<name>Horse</name>
+			<sound>horse.ogg</sound>
+			<images transparent="true">
+				<image>horse.jpg</image>
+			</images>
+			<rfid>E4410101012</rfid>
+		</gameobject>
+		<gameobject>
+			<name>Pig</name>
+			<sound>pig.ogg</sound>
+			<images transparent="true">
+				<image>pig.jpg</image>
+			</images>
+			<rfid>E4410101013</rfid>
+		</gameobject>		
+		<gameobject>
+			<name>Sheep</name>
+			<sound>sheep.ogg</sound>
+			<images transparent="true">
+				<image>sheep.jpg</image>
+			</images>
+			<rfid>E4410101014</rfid>
+		</gameobject>
 	</gameobjects>
 </game>
