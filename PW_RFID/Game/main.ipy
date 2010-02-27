@@ -1,13 +1,79 @@
 import clr
+import os
+import time
 clr.AddReference('Microsoft.Xna.Framework')
 clr.AddReference('Microsoft.Xna.Framework.Game')
+clr.AddReferenceToFileAndPath(os.path.join('lib','ASCHFProtLib.dll'))
 
 from Microsoft.Xna.Framework import *
 from Microsoft.Xna.Framework.Graphics import *
 from Microsoft.Xna.Framework.Content import *
 from Microsoft.Xna.Framework.Audio import *
 from Microsoft.Xna.Framework.Input import *
+
 from xmlreader import XmlSettings
+from threading import Thread
+
+class RFIDReader(Thread):
+
+	"""
+	The RF ID reader runs in a seperate thread.
+	It simply runs in an infinite loop, sending serial
+	messages to the RFID reader. An event handler handles
+	the returned data.
+	"""
+
+	self.TAGPATTERN=re.compile(r"E0040100[0-9A-F]{8}")
+	self.current_tags = []
+	self.reader = null
+	
+	def __init__(self):
+	
+		"""
+		Do some setup
+		"""
+		
+		self.reader = ASCHFProtLib.HFProt()
+		self.reader.OnRS232AscMsg += self.onRS232MsgReceived
+		self.reader.OpenRSCom(19200, "COM2"):
+	
+	def run()
+	
+		"""
+		Overloaded Thread method.
+		"""
+		
+		while self.running:
+			try:
+				self.reader.SendRS232("M01")
+				time.sleep(2)
+			except KeyboardInterrupt:
+				self.running=False
+	
+	
+	def onRS232MsgReceived(self, sender, event):
+	
+		"""
+		This event handler parses responses coming from the
+		RFID reader and populates a list with tag IDs that 
+		are currently on the reader.
+		"""
+	
+		self.current_tags = []
+		for m in re.finditer(self.TAGPATTERN, event):
+			self.current_tags.append(m.group(0))
+	
+	def __del__(self):
+	
+		"""
+		Gracefully closing the serial connection on destroy
+		"""
+		
+		self.reader.CloseRSCom()
+		
+	
+test = RFIDReader()
+
 
 class Sprite():
 	def __init__(self, xpos, ypos, image, sound):
