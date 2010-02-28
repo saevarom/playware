@@ -5,6 +5,8 @@
 		<screenwidth>600</screenwidth>
 		<screenheight>400</screenheight>		
 		<gametype>1</gametype>
+		<com_port>COM2</com_port>
+		<baud_rate>19200</baud_rate>
 	</settings>
 	<gameobjects>
 		<gameobject>

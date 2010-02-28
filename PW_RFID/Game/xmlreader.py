@@ -1,6 +1,6 @@
 import clr
 clr.AddReference('System.Xml')
-from System.Xml import XmlDocument
+from System.Xml import XmlDocument, XmlNodeList
 from System.IO import File
 
 # This class takes care of reading the XML file and create the items needed for the game
@@ -25,14 +25,17 @@ class XmlSettings(object):
 	
 	# Selects the node called gameobjects and creates a list of all sprites to be used in the game
 	def getGameData(self):
-		ns = self.Document.SelectNodes("//gameobjects")
+		ns = self.Document.SelectNodes("//gameobject")
 		SettingList = []
 		for n in ns:
+			Item = {}
 			for on in n.ChildNodes:
-				Item = {}
-				Item['Name'] = on.InnerText
-				Item['Sound'] = on.GetAttribute("sound")
-				Item['Image'] = on.GetAttribute("image")
-				Item['Rfid'] = on.GetAttribute("rfid")
-				SettingList.append(Item)
+				if on.Name == 'images':
+					Images = []
+					for im in on.ChildNodes:
+						Images.append(im.InnerText)
+					Item[on.Name] = Images
+				else:
+					Item[on.Name] = on.InnerText
+			SettingList.append(Item)
 		return SettingList

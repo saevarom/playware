@@ -1,92 +1,30 @@
-import clr
-import os
-import time
-import re
+# Set up reference to the XNA game framework
 
+import os
+import clr
 clr.AddReference('Microsoft.Xna.Framework')
 clr.AddReference('Microsoft.Xna.Framework.Game')
-clr.AddReferenceToFileAndPath(os.path.join('lib','ASCHFProtLib.dll'))
-import ASCHFProtLib
 
+# Import the needed packages from XNA
 from Microsoft.Xna.Framework import *
 from Microsoft.Xna.Framework.Graphics import *
 from Microsoft.Xna.Framework.Content import *
 from Microsoft.Xna.Framework.Audio import *
 from Microsoft.Xna.Framework.Input import *
 
+# Import our custom written classes
 from xmlreader import XmlSettings
-from threading import Thread
-
-class RFIDReader(Thread):
-
-	"""
-	The RF ID reader runs in a seperate thread.
-	It simply runs in an infinite loop, sending serial
-	messages to the RFID reader. An event handler handles
-	the returned data.
-	"""
-
-	def __init__(self):
-	
-		"""
-		Do some setup
-		"""
-		
-		Thread.__init__(self)
-		
-		self.running=True
-		self.TAGPATTERN=re.compile(r"E0040100[0-9A-F]{8}")
-		self.current_tags = []
-		self.reader = ASCHFProtLib.HFProt()
-		self.reader.OnRS232AscMsg += self.onRS232MsgReceived
-		if self.reader.OpenRSCom(19200, "COM2"):
-			print ">>>Successfully cnnected to RFID reader."
-		else:
-			print ">>> Connection to RFID reader failed."
-			# Kill thread
-			self.running=False
-
-	
-	def run(self):
-	
-		"""
-		Overloaded Thread method.
-		"""
-		
-		while self.running:
-			try:
-				self.reader.SendRS232("M01")
-				time.sleep(2)
-			except KeyboardInterrupt:
-				self.running=False
-		print ">>> Closing serial, killing thread."
-		self.reader.CloseRSCom()
-	
-	
-	def onRS232MsgReceived(self, sender, event):
-	
-		"""
-		This event handler parses responses coming from the
-		RFID reader and populates a list with tag IDs that 
-		are currently on the reader.
-		"""
-	
-		self.current_tags = []
-		for m in re.finditer(self.TAGPATTERN, event):
-			self.current_tags.append(m.group(0))
-	
-
-	
-test = RFIDReader()
-test.start()
+from rfidreader import RFIDReader
 
 
-class Sprite():
-	def __init__(self, xpos, ypos, image, sound):
+class Sprite(object):
+	def __init__(self, xpos, ypos, images, sound):
 		self.xpos = xpos
 		self.ypos = ypos
-		self.image = image
 		self.sound = sound
+		self.texture = Texture2D.FromFile(self.graphics.GraphicsDevice, os.path.join('images',images[0]))
+		
+		self.active = False
 		
 class MyGame(Game):
     def __init__(self):
@@ -94,6 +32,16 @@ class MyGame(Game):
         self.spriteSpeedX = self.spriteSpeedY = 1
         self.initializeComponent()
         self.counter = 0
+		
+		# Load the xml settings file and parse it
+		self.xmlconfig = XmlSettings()
+		self.xmlconfig.load("settings.xml")
+		self.settings = xmlconfig.getSettings()
+		self.gamedata = xmlconfig.getGameData()
+		
+		# Initialize RFID reader as a new Thread object and start it.
+		self.reader = RFIDReader(self.settings["com_port"], self.settings["baud_rate"])
+		self.reader.start()
 
     def initializeComponent(self):
 		#Create the managers
@@ -101,15 +49,15 @@ class MyGame(Game):
 		self.content = ContentManager(self.Services) 
 		
 		#The size of the window and title
-		self.graphics.PreferredBackBufferWidth = int(settings["screenwidth"])
-		self.graphics.PreferredBackBufferHeight = int(settings["screenheight"])
-		self.Window.Title = settings["gamename"]
+		self.graphics.PreferredBackBufferWidth = int(self.settings["screenwidth"])
+		self.graphics.PreferredBackBufferHeight = int(self.settings["screenheight"])
+		self.Window.Title = self.settings["gamename"]
 		
 
     def LoadGraphicsContent(self, loadAllContent):
         if loadAllContent:
 			self.spriteBatch = SpriteBatch(self.graphics.GraphicsDevice)
-			self.background = Texture2D.FromFile(self.graphics.GraphicsDevice, "images/"+settings["background"])
+			self.background = Texture2D.FromFile(self.graphics.GraphicsDevice, "images/"+self.settings["background"])
 			self.texture = Texture2D.FromFile(self.graphics.GraphicsDevice, "images/cow.png")
            
     def UnloadGraphicsContent(self, unloadAllContent):
@@ -122,8 +70,6 @@ class MyGame(Game):
         self.counter += gameTime.ElapsedRealTime.TotalMilliseconds
         #print(self.counter)
         Game.Update(self, gameTime)
-		
-	
 
     def UpdateSprite(self):       
         self.spriteX += self.spriteSpeedX
@@ -155,18 +101,10 @@ class MyGame(Game):
        
     def DrawSprite(self):
 		self.spriteBatch.Begin()
-		self.spriteBatch.Draw(self.background, Rectangle(0,0,int(settings["screenwidth"]), int(settings["screenheight"])), Color.White)
+		self.spriteBatch.Draw(self.background, Rectangle(0,0,int(self.settings["screenwidth"]), int(self.settings["screenheight"])), Color.White)
 		self.spriteBatch.Draw(self.texture, Rectangle(self.spriteX, self.spriteY, self.texture.Width*2, self.texture.Height*2), Color.White)
 		self.spriteBatch.End()
 
-		
 if __name__ == "__main__":		
-	config = XmlSettings()
-	config.load("settings.xml")
-	settings = config.getSettings()
-	print settings
-	print "----------------"
-	#gamedata = config.getGameData()
-	#print gamedata
 	game = MyGame()
 	game.Run()
