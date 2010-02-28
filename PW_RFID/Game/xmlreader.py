@@ -31,6 +31,10 @@ class XmlSettings(object):
 			Item = {}
 			for on in n.ChildNodes:
 				if on.Name == 'images':
+					Item['xpos'] = on.GetAttribute("xpos")
+					Item['ypos'] = on.GetAttribute("ypos")
+					Item['height'] = on.GetAttribute("height")
+					Item['width'] = on.GetAttribute("width")
 					Images = []
 					for im in on.ChildNodes:
 						Images.append(im.InnerText)
@@ -39,4 +43,5 @@ class XmlSettings(object):
 					Item[on.Name] = on.InnerText
 			if len(Item.items()) > 0:
 				SettingList.append(Item)
+		print SettingList
 		return SettingList

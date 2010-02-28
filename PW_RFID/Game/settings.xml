@@ -1,7 +1,7 @@
 <game>
 	<settings>
 		<gamename>Playware XNA Game</gamename>
-		<background>background.png</background>
+		<background>background2.png</background>
 		<screenwidth>600</screenwidth>
 		<screenheight>400</screenheight>		
 		<gametype>1</gametype>
@@ -14,7 +14,7 @@
 			<sound>cat.ogg</sound>
 			<xpos>25</xpos>
 			<ypos>250</ypos>
-			<images transparent="true" height="120" width="106">
+			<images xpos="25" ypos="250" height="120" width="106">
 				<image>cat.png</image>
 			</images>
 			<rfid>E4410101010</rfid>
@@ -24,7 +24,7 @@
 			<sound>cow.ogg</sound>
 			<xpos>25</xpos>
 			<ypos>250</ypos>
-			<images transparent="true" height="120" width="106">
+			<images xpos="25" ypos="250" height="120" width="106">
 				<image>cow.png</image>
 			</images>
 			<rfid>E4410101010</rfid>
@@ -32,9 +32,7 @@
 		<gameobject>
 			<name>Chicken</name>
 			<sound>chicken.ogg</sound>
-			<xpos>150</xpos>
-			<ypos>250</ypos>
-			<images transparent="true" height="120" width="96">
+			<images xpos="150" ypos="250" height="120" width="96">
 				<image>chicken.png</image>
 			</images>
 			<rfid>E4410101011</rfid>
@@ -42,9 +40,7 @@
 		<gameobject>
 			<name>Dog</name>
 			<sound>dog.ogg</sound>
-			<xpos>275</xpos>
-			<ypos>250</ypos>
-			<images transparent="true" height="120" width="90">
+			<images xpos="225" ypos="150" height="240" width="180">
 				<image>dog.png</image>
 			</images>
 			<rfid>E4410101012</rfid>
@@ -54,7 +50,7 @@
 			<sound>pig.ogg</sound>
 			<xpos>400</xpos>
 			<ypos>250</ypos>
-			<images transparent="true" height="120" width="114">
+			<images xpos="400" ypos="250" height="120" width="114">
 				<image>pig.png</image>
 			</images>
 			<rfid>E4410101013</rfid>
@@ -64,7 +60,7 @@
 			<sound>sheep.ogg</sound>
 			<xpos>525</xpos>
 			<ypos>250</ypos>
-			<images transparent="true" height="120" width="116">
+			<images xpos="525" ypos="250" height="120" width="116">
 				<image>sheep.png</image>
 			</images>
 			<rfid>E4410101014</rfid>
@@ -74,7 +70,7 @@
 			<sound>monkey.ogg</sound>
 			<xpos>525</xpos>
 			<ypos>250</ypos>
-			<images transparent="true" height="98" width="120">
+			<images xpos="525" ypos="250" height="98" width="120">
 				<image>monkey.png</image>
 			</images>
 			<rfid>E4410101014</rfid>

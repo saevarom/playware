@@ -17,7 +17,7 @@ from xmlreader import XmlSettings
 from rfidreader import RFIDReader
 
 class Sprite(DrawableGameComponent):
-	def __new__(self, game, name, rfid, xpos, ypos, images, sound):
+	def __new__(self, game, name, rfid, xpos, ypos, width, height, images, sound):
 		instance = DrawableGameComponent.__new__(self, game)
 		instance.game = game
 		instance.name = name
@@ -25,6 +25,8 @@ class Sprite(DrawableGameComponent):
 		instance.rfid = rfid
 		instance.xpos = int(xpos)
 		instance.ypos = int(ypos)
+		instance.width = int(width)
+		instance.height = int(height)
 		instance.sound = sound
 		return instance
 
@@ -78,7 +80,7 @@ class MyGame(Game):
 	def generateSprites(self):
 		for s in self.gamedata:
 			print s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound']
-			s1 = Sprite(self, s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound'])
+			s1 = Sprite(self, s['name'], s['rfid'], s['xpos'], s['ypos'], s['width'], s['height'], s['images'], s['sound'])
 			self.Components.Add(s1)
 			#self.sprites.append(Sprite(self)) #, s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound']))
 
@@ -114,7 +116,7 @@ class MyGame(Game):
 		self.spriteBatch.Begin()
 		self.spriteBatch.Draw(self.background, Rectangle(0,0,int(self.settings["screenwidth"]), int(self.settings["screenheight"])), Color.White)
 		for s in self.Components:
-			self.spriteBatch.Draw(s.texture, Rectangle(s.xpos, s.ypos, s.texture.Width/5, s.texture.Height/5), Color.White)
+			self.spriteBatch.Draw(s.texture, Rectangle(s.xpos, s.ypos, s.width, s.height), Color.White)
 		self.spriteBatch.End()
 
 if __name__ == "__main__":
