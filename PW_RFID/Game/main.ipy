@@ -17,17 +17,20 @@ from xmlreader import XmlSettings
 from rfidreader import RFIDReader
 
 
-class Sprite(object):
-	def __init__(self, g, name, rfid, xpos, ypos, images, sound):
-		self.g = g
+class Sprite(DrawableGameComponent):
+	def __new__(self, game, name, rfid, xpos, ypos, images, sound):
+		#DrawableGameComponent.__init__(self, game)
 		self.name = name
 		self.rfid = rfid
 		self.xpos = xpos
 		self.ypos = ypos
 		self.sound = sound
-		print os.path.join('images',images[0])
-		self.texture = Texture2D.FromFile(self.g, 'images/'+images[0])
-		self.active = False
+		
+	def LoadContent(self, loadAllContent):
+		if loadAllContent:
+			self.spriteBatch = SpriteBatch(self.graphics.GraphicsDevice)
+			self.texture = Texture2D.FromFile(self.graphics.GraphicsDevice, "images/" + self.images[0])
+
 		
 	def __repr__(self):
 		return "<Sprite object (RFID: " + self.rfid + ") >"
@@ -65,7 +68,8 @@ class MyGame(Game):
 
 	def generateSprites(self):
 		for s in self.gamedata:
-			self.sprites.append(Sprite(self.graphics.GraphicsDevice, s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound']))
+			self.sprites.append(Sprite(self, s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound']))
+			#self.sprites.append(Sprite(self)) #, s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound']))
 
 
 	def LoadGraphicsContent(self, loadAllContent):
@@ -76,7 +80,7 @@ class MyGame(Game):
 
 	def UnloadGraphicsContent(self, unloadAllContent):
 		if unloadAllContent:
-			self.texture.Dispose()
+			#self.texture.Dispose()
 			self.spritebatch.Dispose()
 
 	def Update(self, gameTime):
@@ -89,7 +93,7 @@ class MyGame(Game):
 		self.spriteX += self.spriteSpeedX
 		self.spriteY += self.spriteSpeedY
 
-		maxX = self.graphics.GraphicsDevice.Viewport.Width - self.texture.Width
+		maxX = self.graphics.GraphicsDevice.Viewport.Width #- self.texture.Width
 		if self.spriteX > maxX:
 			self.spriteSpeedX *= -1
 			self.spriteX = maxX
@@ -97,7 +101,7 @@ class MyGame(Game):
 			self.spriteSpeedX *= -1
 			self.spriteX = 0
 
-		maxY = self.graphics.GraphicsDevice.Viewport.Height - self.texture.Height
+		maxY = self.graphics.GraphicsDevice.Viewport.Height #- self.texture.Height
 		if self.spriteY > maxY:
 			self.spriteSpeedY *= -1
 			self.spriteY = maxY
