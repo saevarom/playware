@@ -12,6 +12,8 @@
 		<gameobject>
 			<name>Cow</name>
 			<sound>cow.ogg</sound>
+			<xpos>50</xpos>
+			<ypos>350</ypos>
 			<images transparent="true">
 				<image>cow.png</image>
 			</images>
@@ -20,6 +22,8 @@
 		<gameobject>
 			<name>Duck</name>
 			<sound>duck.ogg</sound>
+			<xpos>150</xpos>
+			<ypos>350</ypos>
 			<images transparent="true">
 				<image>duck.png</image>
 			</images>
@@ -28,6 +32,8 @@
 		<gameobject>
 			<name>Horse</name>
 			<sound>horse.ogg</sound>
+			<xpos>250</xpos>
+			<ypos>350</ypos>
 			<images transparent="true">
 				<image>horse.jpg</image>
 			</images>
@@ -36,6 +42,8 @@
 		<gameobject>
 			<name>Pig</name>
 			<sound>pig.ogg</sound>
+			<xpos>350</xpos>
+			<ypos>350</ypos>
 			<images transparent="true">
 				<image>pig.jpg</image>
 			</images>
@@ -44,6 +52,8 @@
 		<gameobject>
 			<name>Sheep</name>
 			<sound>sheep.ogg</sound>
+			<xpos>450</xpos>
+			<ypos>350</ypos>
 			<images transparent="true">
 				<image>sheep.jpg</image>
 			</images>
