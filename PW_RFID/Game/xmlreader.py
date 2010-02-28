@@ -37,5 +37,6 @@ class XmlSettings(object):
 					Item[on.Name] = Images
 				else:
 					Item[on.Name] = on.InnerText
-			SettingList.append(Item)
+			if len(Item.items()) > 0:
+				SettingList.append(Item)
 		return SettingList

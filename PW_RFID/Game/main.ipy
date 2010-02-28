@@ -18,13 +18,15 @@ from rfidreader import RFIDReader
 
 
 class Sprite(object):
-	def __init__(self, name, rfid, xpos, ypos, images, sound):
+	def __init__(self, g, name, rfid, xpos, ypos, images, sound):
+		self.g = g
 		self.name = name
 		self.rfid = rfid
 		self.xpos = xpos
 		self.ypos = ypos
 		self.sound = sound
-		self.texture = Texture2D.FromFile(self.graphics.GraphicsDevice, os.path.join('images',images[0]))
+		print os.path.join('images',images[0])
+		self.texture = Texture2D.FromFile(self.g, 'images/'+images[0])
 		self.active = False
 		
 	def __repr__(self):
@@ -45,7 +47,7 @@ class MyGame(Game):
 		
 		self.sprites = []
 		self.sprites = self.generateSprites()
-		print self.sprites
+		print self.gamedata
 		
 		# Initialize RFID reader as a new Thread object and start it.
 		self.reader = RFIDReader(self.settings["com_port"], int(self.settings["baud_rate"]))
@@ -63,13 +65,14 @@ class MyGame(Game):
 
 	def generateSprites(self):
 		for s in self.gamedata:
-			self.sprites.append(Sprite(s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound']))
+			self.sprites.append(Sprite(self.graphics.GraphicsDevice, s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound']))
+
 
 	def LoadGraphicsContent(self, loadAllContent):
 		if loadAllContent:
 			self.spriteBatch = SpriteBatch(self.graphics.GraphicsDevice)
 			self.background = Texture2D.FromFile(self.graphics.GraphicsDevice, "images/"+self.settings["background"])
-			self.texture = Texture2D.FromFile(self.graphics.GraphicsDevice, "images/cow.png")
+			#self.texture = Texture2D.FromFile(self.graphics.GraphicsDevice, "images/cow.png")
 
 	def UnloadGraphicsContent(self, unloadAllContent):
 		if unloadAllContent:
@@ -113,7 +116,7 @@ class MyGame(Game):
 	def DrawSprite(self):
 		self.spriteBatch.Begin()
 		self.spriteBatch.Draw(self.background, Rectangle(0,0,int(self.settings["screenwidth"]), int(self.settings["screenheight"])), Color.White)
-		self.spriteBatch.Draw(self.texture, Rectangle(self.spriteX, self.spriteY, self.texture.Width*2, self.texture.Height*2), Color.White)
+		#self.spriteBatch.Draw(self.texture, Rectangle(self.spriteX, self.spriteY, self.texture.Width*2, self.texture.Height*2), Color.White)
 		self.spriteBatch.End()
 
 if __name__ == "__main__":		
