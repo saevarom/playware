@@ -114,7 +114,7 @@ class MyGame(Game):
 		self.spriteBatch.Begin()
 		self.spriteBatch.Draw(self.background, Rectangle(0,0,int(self.settings["screenwidth"]), int(self.settings["screenheight"])), Color.White)
 		for s in self.Components:
-			self.spriteBatch.Draw(s.texture, Rectangle(s.xpos, s.ypos, s.texture.Width*2, s.texture.Height*2), Color.White)
+			self.spriteBatch.Draw(s.texture, Rectangle(s.xpos, s.ypos, s.texture.Width/5, s.texture.Height/5), Color.White)
 		self.spriteBatch.End()
 
 if __name__ == "__main__":
