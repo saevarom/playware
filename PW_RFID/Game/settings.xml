@@ -35,7 +35,7 @@
 			<xpos>250</xpos>
 			<ypos>350</ypos>
 			<images transparent="true">
-				<image>horse.jpg</image>
+				<image>horse.png</image>
 			</images>
 			<rfid>E4410101012</rfid>
 		</gameobject>
@@ -45,7 +45,7 @@
 			<xpos>350</xpos>
 			<ypos>350</ypos>
 			<images transparent="true">
-				<image>pig.jpg</image>
+				<image>pig.png</image>
 			</images>
 			<rfid>E4410101013</rfid>
 		</gameobject>		
@@ -55,7 +55,7 @@
 			<xpos>450</xpos>
 			<ypos>350</ypos>
 			<images transparent="true">
-				<image>sheep.jpg</image>
+				<image>sheep.png</image>
 			</images>
 			<rfid>E4410101014</rfid>
 		</gameobject>

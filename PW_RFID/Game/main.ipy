@@ -16,24 +16,26 @@ from Microsoft.Xna.Framework.Input import *
 from xmlreader import XmlSettings
 from rfidreader import RFIDReader
 
-
 class Sprite(DrawableGameComponent):
 	def __new__(self, game, name, rfid, xpos, ypos, images, sound):
-		#DrawableGameComponent.__init__(self, game)
-		self.name = name
-		self.rfid = rfid
-		self.xpos = xpos
-		self.ypos = ypos
-		self.sound = sound
-		
-	def LoadContent(self, loadAllContent):
+		instance = DrawableGameComponent.__new__(self, game)
+		instance.game = game
+		instance.name = name
+		instance.images = images
+		instance.rfid = rfid
+		instance.xpos = int(xpos)
+		instance.ypos = int(ypos)
+		instance.sound = sound
+		return instance
+
+	def LoadGraphicsContent(self, loadAllContent):
 		if loadAllContent:
-			self.spriteBatch = SpriteBatch(self.graphics.GraphicsDevice)
-			self.texture = Texture2D.FromFile(self.graphics.GraphicsDevice, "images/" + self.images[0])
+			self.spriteBatch = SpriteBatch(self.game.graphics.GraphicsDevice)
+			self.texture = Texture2D.FromFile(self.game.graphics.GraphicsDevice, "images/" + self.images[0])
 
 		
-	def __repr__(self):
-		return "<Sprite object (RFID: " + self.rfid + ") >"
+	#def __repr__(self):
+	#	return "<Sprite object (RFID: " + self.rfid + ") >"
 
 class MyGame(Game):
 	def __init__(self):
@@ -42,19 +44,26 @@ class MyGame(Game):
 		self.xmlconfig.load("settings.xml")
 		self.settings = self.xmlconfig.getSettings()
 		self.gamedata = self.xmlconfig.getGameData()
+
 	
 		self.spriteX = self.spriteY = 0
 		self.spriteSpeedX = self.spriteSpeedY = 1
 		self.initializeComponent()
 		self.counter = 0
 		
-		self.sprites = []
-		self.sprites = self.generateSprites()
-		print self.gamedata
+		self.in_test_mode = False
+		self.current_tags = []
+		
+		self.generateSprites()
+		for i in self.Components:
+			print i
 		
 		# Initialize RFID reader as a new Thread object and start it.
 		self.reader = RFIDReader(self.settings["com_port"], int(self.settings["baud_rate"]))
 		self.reader.start()
+		
+		if not self.reader.running:
+			self.in_test_mode = True
 
 	def initializeComponent(self):
 		#Create the managers
@@ -68,9 +77,14 @@ class MyGame(Game):
 
 	def generateSprites(self):
 		for s in self.gamedata:
-			self.sprites.append(Sprite(self, s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound']))
+			print s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound']
+			s1 = Sprite(self, s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound'])
+			self.Components.Add(s1)
 			#self.sprites.append(Sprite(self)) #, s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound']))
 
+	def update_tags(self):
+		if self.in_test_mode:
+			self.current_tags =  ["E4410101014",]
 
 	def LoadGraphicsContent(self, loadAllContent):
 		if loadAllContent:
@@ -84,30 +98,9 @@ class MyGame(Game):
 			self.spritebatch.Dispose()
 
 	def Update(self, gameTime):
-		self.UpdateSprite()
 		self.counter += gameTime.ElapsedRealTime.TotalMilliseconds
 		#print(self.counter)
 		Game.Update(self, gameTime)
-
-	def UpdateSprite(self):
-		self.spriteX += self.spriteSpeedX
-		self.spriteY += self.spriteSpeedY
-
-		maxX = self.graphics.GraphicsDevice.Viewport.Width #- self.texture.Width
-		if self.spriteX > maxX:
-			self.spriteSpeedX *= -1
-			self.spriteX = maxX
-		elif self.spriteX < 0:
-			self.spriteSpeedX *= -1
-			self.spriteX = 0
-
-		maxY = self.graphics.GraphicsDevice.Viewport.Height #- self.texture.Height
-		if self.spriteY > maxY:
-			self.spriteSpeedY *= -1
-			self.spriteY = maxY
-		elif self.spriteY < 0:
-			self.spriteSpeedY *= -1
-			self.spriteY = 0
 
 	def Draw(self, gameTime):
 		#On draw, we clear the screen before blitting anything
@@ -120,9 +113,10 @@ class MyGame(Game):
 	def DrawSprite(self):
 		self.spriteBatch.Begin()
 		self.spriteBatch.Draw(self.background, Rectangle(0,0,int(self.settings["screenwidth"]), int(self.settings["screenheight"])), Color.White)
-		#self.spriteBatch.Draw(self.texture, Rectangle(self.spriteX, self.spriteY, self.texture.Width*2, self.texture.Height*2), Color.White)
+		for s in self.Components:
+			self.spriteBatch.Draw(s.texture, Rectangle(s.xpos, s.ypos, s.texture.Width*2, s.texture.Height*2), Color.White)
 		self.spriteBatch.End()
 
-if __name__ == "__main__":		
+if __name__ == "__main__":
 	game = MyGame()
 	game.Run()
