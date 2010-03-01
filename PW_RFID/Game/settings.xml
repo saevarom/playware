@@ -12,8 +12,6 @@
 		<gameobject>
 			<name>Kat</name>
 			<sound>cat.ogg</sound>
-			<xpos>25</xpos>
-			<ypos>250</ypos>
 			<images xpos="25" ypos="250" height="120" width="106">
 				<image>cat.png</image>
 			</images>
@@ -22,8 +20,6 @@
 		<gameobject>
 			<name>Ko</name>
 			<sound>cow.ogg</sound>
-			<xpos>25</xpos>
-			<ypos>250</ypos>
 			<images xpos="25" ypos="250" height="120" width="106">
 				<image>cow.png</image>
 			</images>
@@ -48,8 +44,6 @@
 		<gameobject>
 			<name>Gris</name>
 			<sound>pig.ogg</sound>
-			<xpos>400</xpos>
-			<ypos>250</ypos>
 			<images xpos="400" ypos="250" height="120" width="114">
 				<image>pig.png</image>
 			</images>
@@ -58,8 +52,6 @@
 		<gameobject>
 			<name>Får</name>
 			<sound>sheep.ogg</sound>
-			<xpos>525</xpos>
-			<ypos>250</ypos>
 			<images xpos="525" ypos="250" height="120" width="116">
 				<image>sheep.png</image>
 			</images>
@@ -68,8 +60,6 @@
 		<gameobject>
 			<name>Abe</name>
 			<sound>monkey.ogg</sound>
-			<xpos>525</xpos>
-			<ypos>250</ypos>
 			<images xpos="525" ypos="250" height="98" width="120">
 				<image>monkey.png</image>
 			</images>
@@ -78,8 +68,6 @@
 		<gameobject>
 			<name>Ged</name>
 			<sound>goat.ogg</sound>
-			<xpos>525</xpos>
-			<ypos>250</ypos>
 			<images xpos="525" ypos="250" height="106" width="120">
 				<image>goat.png</image>
 			</images>
