@@ -7,10 +7,15 @@ clr.AddReference('Microsoft.Xna.Framework.Game')
 
 # Import the needed packages from XNA
 from Microsoft.Xna.Framework import *
-from Microsoft.Xna.Framework.Graphics import *
-from Microsoft.Xna.Framework.Content import *
 from Microsoft.Xna.Framework.Audio import *
+from Microsoft.Xna.Framework.Content import *
+from Microsoft.Xna.Framework.GamerServices import *
+from Microsoft.Xna.Framework.Graphics import *
 from Microsoft.Xna.Framework.Input import *
+from Microsoft.Xna.Framework.Net import *
+from Microsoft.Xna.Framework.Storage import *
+
+from System.Media import SoundPlayer
 
 # Import our custom written classes
 from xmlreader import XmlSettings
@@ -60,11 +65,18 @@ class MyGame(Game):
 		# If the reader won't start, we will use dummy data
 		if not self.reader.running:
 			self.in_test_mode = True
-
+		
+		# Small test regarding soundstuff... need to convert all sound files to pcm wav
+		sp = SoundPlayer()
+		sp.SoundLocation = 'sounds/cow.wav'
+		sp.Play()
+		raw_input(">")
+		
 	def initializeComponent(self):
 		#Create the managers
 		self.graphics = GraphicsDeviceManager(self)
-		self.content = ContentManager(self.Services) 
+		self.content = ContentManager(self.Services)
+		self.content.RootDirectory = "stuff"
 		
 		#The size of the window and title
 		self.graphics.PreferredBackBufferWidth = int(self.settings["screenwidth"])
@@ -87,6 +99,9 @@ class MyGame(Game):
 			self.spriteBatch = SpriteBatch(self.graphics.GraphicsDevice)
 			self.background = Texture2D.FromFile(self.graphics.GraphicsDevice, "images/"+self.settings["background"])
 
+			self.Font1 = self.content.Load[Texture2D]("Courier New");       
+			self.FontPos = (self.graphics.GraphicsDevice.Viewport.Width / 2, self.graphics.GraphicsDevice.Viewport.Height / 2);
+			
 	def UnloadGraphicsContent(self, unloadAllContent):
 		if unloadAllContent:
 			self.background.Dispose()
@@ -104,6 +119,13 @@ class MyGame(Game):
 	   
 	def DrawSprite(self):
 		self.spriteBatch.Begin()
+		
+		self.output = "Hello World";
+		FontOrigin = self.Font1.MeasureString( output ) / 2;
+		spriteBatch.DrawString( self.Font1, self.output, self.FontPos, Color.LightGreen, 
+                0, self.FontOrigin, 1, SpriteEffects.None, 0.5 );
+		
+		
 		self.spriteBatch.Draw(self.background, Rectangle(0,0,int(self.settings["screenwidth"]), int(self.settings["screenheight"])), Color.White)
 		for s in self.Components:
 			if s.rfid in self.current_tags:
