@@ -43,7 +43,7 @@
 			<images xpos="225" ypos="150" height="240" width="180">
 				<image>dog.png</image>
 			</images>
-			<rfid>E4410101012</rfid>
+			<rfid>E4410101014</rfid>
 		</gameobject>
 		<gameobject>
 			<name>Pig</name>
@@ -63,7 +63,7 @@
 			<images xpos="525" ypos="250" height="120" width="116">
 				<image>sheep.png</image>
 			</images>
-			<rfid>E4410101014</rfid>
+			<rfid>E4410101015</rfid>
 		</gameobject>
 		<gameobject>
 			<name>Monkey</name>
@@ -73,7 +73,17 @@
 			<images xpos="525" ypos="250" height="98" width="120">
 				<image>monkey.png</image>
 			</images>
-			<rfid>E4410101014</rfid>
+			<rfid>E4410101015</rfid>
+		</gameobject>
+		<gameobject>
+			<name>Goat</name>
+			<sound>goat.ogg</sound>
+			<xpos>525</xpos>
+			<ypos>250</ypos>
+			<images xpos="525" ypos="250" height="106" width="120">
+				<image>goat.png</image>
+			</images>
+			<rfid>E4410101015</rfid>
 		</gameobject>
 	</gameobjects>
 </game>

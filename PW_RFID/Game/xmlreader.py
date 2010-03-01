@@ -43,5 +43,4 @@ class XmlSettings(object):
 					Item[on.Name] = on.InnerText
 			if len(Item.items()) > 0:
 				SettingList.append(Item)
-		print SettingList
 		return SettingList

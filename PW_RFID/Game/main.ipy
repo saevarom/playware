@@ -35,10 +35,6 @@ class Sprite(DrawableGameComponent):
 			self.spriteBatch = SpriteBatch(self.game.graphics.GraphicsDevice)
 			self.texture = Texture2D.FromFile(self.game.graphics.GraphicsDevice, "images/" + self.images[0])
 
-		
-	#def __repr__(self):
-	#	return "<Sprite object (RFID: " + self.rfid + ") >"
-
 class MyGame(Game):
 	def __init__(self):
 		# Load the xml settings file and parse it
@@ -46,26 +42,25 @@ class MyGame(Game):
 		self.xmlconfig.load("settings.xml")
 		self.settings = self.xmlconfig.getSettings()
 		self.gamedata = self.xmlconfig.getGameData()
-
-	
-		self.spriteX = self.spriteY = 0
-		self.spriteSpeedX = self.spriteSpeedY = 1
-		self.initializeComponent()
-		self.counter = 0
 		
+		# Initalizing component managers
+		self.initializeComponent()
+		
+		# Create the sprites from the XML file
+		self.generateSprites()
+
+		# Get ready to receive tag data from reader
 		self.in_test_mode = False
 		self.current_tags = []
-		
-		self.generateSprites()
-		for i in self.Components:
-			print i
 		
 		# Initialize RFID reader as a new Thread object and start it.
 		self.reader = RFIDReader(self.settings["com_port"], int(self.settings["baud_rate"]))
 		self.reader.start()
 		
+		# If the reader won't start, we will use dummy data
 		if not self.reader.running:
 			self.in_test_mode = True
+			self.update_tags()
 
 	def initializeComponent(self):
 		#Create the managers
@@ -79,11 +74,9 @@ class MyGame(Game):
 
 	def generateSprites(self):
 		for s in self.gamedata:
-			print s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound']
 			s1 = Sprite(self, s['name'], s['rfid'], s['xpos'], s['ypos'], s['width'], s['height'], s['images'], s['sound'])
 			self.Components.Add(s1)
-			#self.sprites.append(Sprite(self)) #, s['name'], s['rfid'], s['xpos'], s['ypos'], s['images'], s['sound']))
-
+			
 	def update_tags(self):
 		if self.in_test_mode:
 			self.current_tags =  ["E4410101014",]
@@ -92,31 +85,27 @@ class MyGame(Game):
 		if loadAllContent:
 			self.spriteBatch = SpriteBatch(self.graphics.GraphicsDevice)
 			self.background = Texture2D.FromFile(self.graphics.GraphicsDevice, "images/"+self.settings["background"])
-			#self.texture = Texture2D.FromFile(self.graphics.GraphicsDevice, "images/cow.png")
 
 	def UnloadGraphicsContent(self, unloadAllContent):
 		if unloadAllContent:
-			#self.texture.Dispose()
-			self.spritebatch.Dispose()
+			self.background.Dispose()
+			self.spriteBatch.Dispose()
 
 	def Update(self, gameTime):
-		self.counter += gameTime.ElapsedRealTime.TotalMilliseconds
-		#print(self.counter)
 		Game.Update(self, gameTime)
 
 	def Draw(self, gameTime):
 		#On draw, we clear the screen before blitting anything
 		self.graphics.GraphicsDevice.Clear(Color.CornflowerBlue)
-
 		self.DrawSprite()
-		
 		Game.Draw(self, gameTime)
 	   
 	def DrawSprite(self):
 		self.spriteBatch.Begin()
 		self.spriteBatch.Draw(self.background, Rectangle(0,0,int(self.settings["screenwidth"]), int(self.settings["screenheight"])), Color.White)
 		for s in self.Components:
-			self.spriteBatch.Draw(s.texture, Rectangle(s.xpos, s.ypos, s.width, s.height), Color.White)
+			if s.rfid in self.current_tags:
+				self.spriteBatch.Draw(s.texture, Rectangle(s.xpos, s.ypos, s.width, s.height), Color.White)
 		self.spriteBatch.End()
 
 if __name__ == "__main__":
