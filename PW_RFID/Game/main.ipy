@@ -60,7 +60,6 @@ class MyGame(Game):
 		# If the reader won't start, we will use dummy data
 		if not self.reader.running:
 			self.in_test_mode = True
-			self.update_tags()
 
 	def initializeComponent(self):
 		#Create the managers
@@ -80,6 +79,8 @@ class MyGame(Game):
 	def update_tags(self):
 		if self.in_test_mode:
 			self.current_tags =  ["E4410101014",]
+		else:
+			self.current_tags = self.reader.current_tags
 
 	def LoadGraphicsContent(self, loadAllContent):
 		if loadAllContent:
@@ -92,6 +93,7 @@ class MyGame(Game):
 			self.spriteBatch.Dispose()
 
 	def Update(self, gameTime):
+		self.update_tags()
 		Game.Update(self, gameTime)
 
 	def Draw(self, gameTime):

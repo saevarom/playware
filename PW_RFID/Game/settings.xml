@@ -10,80 +10,80 @@
 	</settings>
 	<gameobjects>
 		<gameobject>
-			<name>Cat</name>
+			<name>Kat</name>
 			<sound>cat.ogg</sound>
 			<xpos>25</xpos>
 			<ypos>250</ypos>
 			<images xpos="25" ypos="250" height="120" width="106">
 				<image>cat.png</image>
 			</images>
-			<rfid>E4410101010</rfid>
+			<rfid>E00401001CCE7A81</rfid>
 		</gameobject>
 		<gameobject>
-			<name>Cow</name>
+			<name>Ko</name>
 			<sound>cow.ogg</sound>
 			<xpos>25</xpos>
 			<ypos>250</ypos>
 			<images xpos="25" ypos="250" height="120" width="106">
 				<image>cow.png</image>
 			</images>
-			<rfid>E4410101010</rfid>
+			<rfid>E00401001CCE8F7D</rfid>
 		</gameobject>
 		<gameobject>
-			<name>Chicken</name>
+			<name>Kylling</name>
 			<sound>chicken.ogg</sound>
 			<images xpos="150" ypos="250" height="120" width="96">
 				<image>chicken.png</image>
 			</images>
-			<rfid>E4410101011</rfid>
+			<rfid>E00401001CCE784A</rfid>
 		</gameobject>
 		<gameobject>
-			<name>Dog</name>
+			<name>Hund</name>
 			<sound>dog.ogg</sound>
 			<images xpos="225" ypos="150" height="240" width="180">
 				<image>dog.png</image>
 			</images>
-			<rfid>E4410101014</rfid>
+			<rfid>E00401001ADC0EEA</rfid>
 		</gameobject>
 		<gameobject>
-			<name>Pig</name>
+			<name>Gris</name>
 			<sound>pig.ogg</sound>
 			<xpos>400</xpos>
 			<ypos>250</ypos>
 			<images xpos="400" ypos="250" height="120" width="114">
 				<image>pig.png</image>
 			</images>
-			<rfid>E4410101013</rfid>
+			<rfid>E00401001CCE90C6</rfid>
 		</gameobject>		
 		<gameobject>
-			<name>Sheep</name>
+			<name>Får</name>
 			<sound>sheep.ogg</sound>
 			<xpos>525</xpos>
 			<ypos>250</ypos>
 			<images xpos="525" ypos="250" height="120" width="116">
 				<image>sheep.png</image>
 			</images>
-			<rfid>E4410101015</rfid>
+			<rfid>E00401001CCE93AF</rfid>
 		</gameobject>
 		<gameobject>
-			<name>Monkey</name>
+			<name>Abe</name>
 			<sound>monkey.ogg</sound>
 			<xpos>525</xpos>
 			<ypos>250</ypos>
 			<images xpos="525" ypos="250" height="98" width="120">
 				<image>monkey.png</image>
 			</images>
-			<rfid>E4410101015</rfid>
+			<rfid>E00401001CCE9383</rfid>
 		</gameobject>
 		<gameobject>
-			<name>Goat</name>
+			<name>Ged</name>
 			<sound>goat.ogg</sound>
 			<xpos>525</xpos>
 			<ypos>250</ypos>
 			<images xpos="525" ypos="250" height="106" width="120">
 				<image>goat.png</image>
 			</images>
-			<rfid>E4410101015</rfid>
+			<rfid>E00401001CCE79E3</rfid>
 		</gameobject>
 	</gameobjects>
 </game>

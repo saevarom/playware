@@ -45,7 +45,7 @@ class RFIDReader(Thread):
 		while self.running:
 			try:
 				self.reader.SendRS232("M01")
-				time.sleep(1)
+				time.sleep(0.5)
 				#print self.current_tags
 			except KeyboardInterrupt:
 				self.running=False
